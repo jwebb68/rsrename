@@ -1,29 +1,37 @@
-use structopt::StructOpt;
+use clap::Parser;
 
-#[derive(StructOpt, Debug)]
-#[structopt(name = "rsrename", about = "rsrename.")]
-struct Opt {
-    // A flag, true if used in the command line. Note doc comment will
-    // be used for the help message of the flag. The name of the
-    // argument will be, by default, based on the name of the field.
-
-    // The number of occurrences of the `v/verbose` flag
-    //// Verbose mode (-v, -vv, -vvv, etc.)
-    // #[structopt(short, long, parse(from_occurrences))]
-    // verbose: u8,
-
-    // do the rename or just print what would be done..
-    #[structopt(short="-n", long="--dry-run")]
+#[derive(Parser, Debug)]
+#[command(author, version)] // read from cargo.toml
+#[command(about)] // would read from cargo.toml, but long_about isn't.
+#[command(long_about)]
+#[command(verbatim_doc_comment)]
+/// A file renamer.
+///
+/// Renames files/folders under ROOT matching PATT to REPL.
+/// Capture clauses in PATT are available in REPL.
+/// Files cannot be moved by this tool, ony their names changed.
+struct CliArgs {
+    /// Do the rename or just print what would be renamed to what.
+    #[arg(short='n', long="dry-run")]
     dry_run: bool,
 
-    /// the root path to use
-    /// should be shell-expanded.
+    /// The root path to use.
+    ///
+    /// Should be shell-expanded, but isn't..
+    /// Note: ~/ and ~<name> do not get expanded.
+    #[arg(verbatim_doc_comment)]
     root: std::path::PathBuf,
 
-    /// regex of the pattern from find
+    /// Regex of the pattern to find..
+    ///
+    /// Use ( ) to capture content to use when replacing..
+    #[arg(verbatim_doc_comment)]
     patt: String,
 
-    // replacement regex
+    /// Replacement regex..
+    ///
+    /// Use $<n> to use captured string <n> in patt..
+    #[arg(verbatim_doc_comment)]
     repl: String
 }
 
@@ -51,7 +59,7 @@ fn rename(root: &std::path::Path, regx: &String, repl: &String, dry_run: bool) {
 }
 
 fn main() {
-    let opts = Opt::from_args();
-
+    let opts = CliArgs::parse();
+    //eprintln!("{:#?}",opts);
     rename(&opts.root, &opts.patt, &opts.repl, opts.dry_run);
 }
