@@ -1,0 +1,82 @@
+{
+	"version": "2.0.0",
+        "options": {
+                "shell": {
+                        "executable": "nix-shell",
+                        "args": [
+                                "--pure",
+                                "--run"
+                        ]
+                }
+        },
+        "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": false,
+                "clear": false
+        },
+        "tasks": [
+                {
+                        "type": "shell",
+                        "command":"cargo",
+                        "args": [
+                                "build"
+                        ],
+                        "problemMatcher": [
+                                "$rustc"
+                        ],
+                        "group": "build",
+                        "label": "Rust: cargo build debug"
+                },
+                {
+                        "type": "shell",
+                        "command":"cargo",
+                        "args": [
+                                "check"
+                        ],
+                        "problemMatcher": [
+                                "$rustc"
+                        ],
+                        "group": "build",
+                        "label": "Rust: cargo check"
+                },
+                {
+                        "type": "shell",
+                        "command":"cargo",
+                        "args": [
+                                "test"
+                        ],
+                        "problemMatcher": [
+                                "$rustc"
+                        ],
+                        "group": "test",
+                        "label": "Rust: cargo test"
+                },
+                {
+                        "label": "Rust: cargo criterion",
+                        "type": "shell",
+                        "command": "cargo",
+                        "args": [
+                                "criterion"
+                        ],
+                        "problemMatcher": [
+                                "$rustc"
+                        ],
+                        "group": "test"
+                },
+                {
+                        "type": "shell",
+                        "command": "cargo",
+                        "args": [
+                                "clean"
+                        ],
+                        "problemMatcher": [
+                                "$rustc"
+                        ],
+                        "group": "build",
+                        "label": "Rust: cargo clean"
+                }
+        ]
+}

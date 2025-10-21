@@ -11,10 +11,19 @@ rustPlatform.buildRustPackage rec {
   src = ./.;
 
   #cargoSha256 = "0000000000000000000000000000000000000000000000000000";
-  cargoSha256 = "sha256-VzBJpX4JRSoRf1ZmicmFsJWSM8d021q/9F1Ke5rzMoY=";
+  #cargoSha256 = "sha256-VzBJpX4JRSoRf1ZmicmFsJWSM8d021q/9F1Ke5rzMoY=";
+  cargoHash = "sha256-Zfaiciqcjbn/TX3s5IV4YWlJ8RjgskJ1iRkuSf1HED0=";
+
+  cargoLock = {
+      lockFile = ./Cargo.lock;
+  };
 
   buildInputs = [
   ];
+
+  # postPatch = ''
+  #     ln -s ${./Cargo.lock} Cargo.lock
+  # '';
 
   meta = {
     description = "Rust based file renamer";
