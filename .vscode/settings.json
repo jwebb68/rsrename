@@ -1,7 +1,4 @@
 {
-        "nixEnvSelector.nixFile": "${workspaceFolder}/shell.nix",
-        "rust-client.disableRustup": true,
-        "rust.all_features": true,
-        "rust.clippy_preference": "on",
-        "rust.rust-analyzer.releaseTag": "stable"
+        "nixEnvSelector.useFlakes": true,
+        "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
 }
