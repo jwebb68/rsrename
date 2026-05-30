@@ -11,11 +11,9 @@
   outputs = { flake-utils, naersk, nixpkgs, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = (import nixpkgs) {
-          inherit system;
-        };
+        pkgs = (import nixpkgs) { inherit system; };
 
-        naersk' = pkgs.callPackage naersk {};
+        naersk' = pkgs.callPackage naersk { };
 
       in {
         # For `nix build` & `nix run`:
@@ -23,10 +21,10 @@
           src = ./.;
 
           meta = {
-           description = "Rust based file renamer";
-           homepage = "";
-           license = nixpkgs.lib.licenses.asl20;
-           #platforms = [ "x86_64-linux" ];
+            description = "Rust based file renamer";
+            homepage = "";
+            license = nixpkgs.lib.licenses.asl20;
+            #platforms = [ "x86_64-linux" ];
           };
 
         };
@@ -42,6 +40,5 @@
             taplo # toml fomatting
           ];
         };
-      }
-    );
+      });
 }
