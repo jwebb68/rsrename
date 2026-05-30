@@ -39,6 +39,7 @@
             clippy
             #pkgs.rls
             rust-analyzer
+            taplo # toml fomatting
           ];
         };
       }
