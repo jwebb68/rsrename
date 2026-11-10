@@ -15,6 +15,10 @@ struct CliArgs {
     #[arg(short='n', long="dry-run")]
     dry_run: bool,
 
+    /// descend into subdirs
+    #[arg(short='d', long="descend")]
+    descend: bool,
+
     /// The root path to use.
     ///
     /// Should be shell-expanded, but isn't..
@@ -39,12 +43,19 @@ use walkdir;
 use regex;
 
 
-fn rename(root: &std::path::Path, regx: &String, repl: &String, dry_run: bool) {
+fn rename(root: &std::path::Path, regx: &String, repl: &String, dry_run: bool, descend:bool) {
     let re = regex::Regex::new(regx).unwrap();
-    let walker = walkdir::WalkDir::new(root);
+    let mut walker = walkdir::WalkDir::new(root);
+
+    if descend {
+    } else {
+        walker = walker.max_depth(1);
+    }
+
+    // walk rooted at root, ignore folders (so no entering into subfolders)
     for entry in walker.into_iter() {
-        let entry = entry.unwrap();
-        let orig = entry.path();
+        let entry2 = entry.unwrap();
+        let orig = entry2.path();
         let newn = re.replace(orig.file_name().unwrap().to_str().unwrap(), repl);
         let dest = orig.with_file_name(newn.as_ref());
         if dest != orig {
@@ -61,5 +72,5 @@ fn rename(root: &std::path::Path, regx: &String, repl: &String, dry_run: bool) {
 fn main() {
     let opts = CliArgs::parse();
     //eprintln!("{:#?}",opts);
-    rename(&opts.root, &opts.patt, &opts.repl, opts.dry_run);
+    rename(&opts.root, &opts.patt, &opts.repl, opts.dry_run, opts.descend);
 }
