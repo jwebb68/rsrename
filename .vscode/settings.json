@@ -1,4 +1,5 @@
 {
         "nixEnvSelector.useFlakes": true,
-        "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
+        "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+        "rust-analyzer.cargo.buildScripts.overrideCommand": ["nix", "develop", "--command", "cargo", "check", "--quiet", "--workspace", "--message-format=json", "--all-targets", "--keep-going"]
 }
